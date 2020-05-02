@@ -30,7 +30,7 @@ public class MeritBankController {
 		return "Welcome to MeritBank"; 
 	}
 	
-	@GetMapping(value="/strings")
+	@GetMapping(value="/strings") //@RequestMapping(value = "/strings", method = RequestMethod.GET)
 	public List<String> getStrings() {
 		return strings; 
 	}
@@ -58,10 +58,10 @@ public class MeritBankController {
 	}
 	
 	@GetMapping(value = "/ac/{id}")
-	public AccountHolder getACById(@PathVariable int id) throws NoSuchResourceFoundException {
-			if (id > ac.size() -1) {
-				throw new NoSuchResourceFoundException ("invalid id");
-			}
+	public AccountHolder getACById(@PathVariable int id) { // throws NoSuchResourceFoundException {
+			//if (id > ac.size() -1) {
+				//throw new NoSuchResourceFoundException ("invalid id");
+			//}
 			return ac.get(id); 
 
 		}
