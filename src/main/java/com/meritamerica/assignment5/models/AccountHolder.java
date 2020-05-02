@@ -1,7 +1,6 @@
 package com.meritamerica.assignment5.models;
 
-import org.hibernate.validator.constraints.NotBlank;
-//import jarvax.validation.constraints.NotBlank; 
+import javax.validation.constraints.NotBlank;
 
 public class AccountHolder {
 	static int nextId= 0; 

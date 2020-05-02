@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.annotation.RequestScope;
 
 import com.meritamerica.assignment5.exceptions.NoSuchResourceFoundException;
 import com.meritamerica.assignment5.models.AccountHolder;
@@ -42,11 +43,13 @@ public class MeritBankController {
 		return string; 
 		
 	} 
+	
 	@GetMapping(value = "/ac")
 	@ResponseStatus(HttpStatus.OK)
 	public List<AccountHolder> getAccoungHolder(){
 		return ac; 
 	}
+	
 	@PostMapping(value = "/ac")
 	@ResponseStatus(HttpStatus.CREATED)
 	public AccountHolder addAccountHolder(@RequestBody @Valid AccountHolder accountHolder) {
