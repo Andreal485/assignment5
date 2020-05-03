@@ -35,6 +35,7 @@ public class AccountHolder {
 	public double checkingAcctBalance; 
 	public double savingsAcctBalance; 
 	public double cdAcctBalance; 
+	public double combinedBalance; 
 	
 	/**
 	 *  part 1
@@ -49,20 +50,22 @@ public class AccountHolder {
 	/**
 	 * Part 2
 	 */
-		this.checkingAccountNo++;
-		this.checkingAccounts = new CheckingAccount[0];
+		this.checkingAccountNo = 0;
+		this.checkingAccounts = new CheckingAccount[100];
 		this.noCheckingAcct = checkingAccounts.length; 
 		this.checkingAcctBalance = checkingAcctBalance; 
 
-		this.savingsAccountNo++;
-		this.savingsAccounts = new SavingsAccount[0];
+		this.savingsAccountNo = 0;
+		this.savingsAccounts = new SavingsAccount[100];
 		this.noSavingsAcct = savingsAccounts.length; 
 		this.savingsAcctBalance = savingsAcctBalance; 
 
-		this.cdAccountNo++;
-		this.cdAccounts = new CDAccount[0];
+		this.cdAccountNo= 0;
+		this.cdAccounts = new CDAccount[100];
 		this.noCDAcct = cdAccounts.length; 
 		this.cdAcctBalance = cdAcctBalance; 
+		
+		this.combinedBalance = checkingAcctBalance + savingsAcctBalance + cdAcctBalance; 
 
 		//cleaningupcode
 		//this.noCheckingAcct = checkingAccounts.length; 
@@ -71,8 +74,81 @@ public class AccountHolder {
 		
 		
 	}
+	
+	public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount) {
+		checkingAccounts [checkingAccountNo] = checkingAccount; 
+		checkingAccountNo++; 
+		return checkingAccount; 
+	}
+	public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) {
+		savingsAccounts [savingsAccountNo] = savingsAccount; 
+		savingsAccountNo++; 
+		return savingsAccount; 
+	}
+	public CDAccount addCDAccount(CDAccount cdAccount) {
+		cdAccounts [cdAccountNo] = cdAccount; 
+		cdAccountNo++; 
+		return cdAccount; 
+	}
+	
+	public int getNoCheckingAcct() {
+		return noCheckingAcct;
+	}
+
+	public void setNoCheckingAcct(int noCheckingAcct) {
+		this.noCheckingAcct = noCheckingAcct;
+	}
+
+	public int getNoSavingsAcct() {
+		return noSavingsAcct;
+	}
+
+	public void setNoSavingsAcct(int noSavingsAcct) {
+		this.noSavingsAcct = noSavingsAcct;
+	}
+
+	public int getNoCDAcct() {
+		return noCDAcct;
+	}
+
+	public void setNoCDAcct(int noCDAcct) {
+		this.noCDAcct = noCDAcct;
+	}
+
+	public double getCheckingAcctBalance() {
+		return checkingAcctBalance;
+	}
+
+	public void setCheckingAcctBalance(double checkingAcctBalance) {
+		this.checkingAcctBalance = checkingAcctBalance;
+	}
+
+	public double getSavingsAcctBalance() {
+		return savingsAcctBalance;
+	}
+
+	public void setSavingsAcctBalance(double savingsAcctBalance) {
+		this.savingsAcctBalance = savingsAcctBalance;
+	}
+
+	public double getCdAcctBalance() {
+		return cdAcctBalance;
+	}
+
+	public void setCdAcctBalance(double cdAcctBalance) {
+		this.cdAcctBalance = cdAcctBalance;
+	}
+
+	public double getCombinedBalance() {
+		return combinedBalance;
+	}
+
+	public void setCombinedBalance(double combinedBalance) {
+		this.combinedBalance = combinedBalance;
+	}
 
 	public CheckingAccount[] getCheckingAccounts() {
+		System.out.println(checkingAccounts);
 		return checkingAccounts;
 	}
 

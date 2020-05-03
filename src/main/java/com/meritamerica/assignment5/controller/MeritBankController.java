@@ -18,12 +18,15 @@ import org.springframework.web.context.annotation.RequestScope;
 
 import com.meritamerica.assignment5.exceptions.NoSuchResourceFoundException;
 import com.meritamerica.assignment5.models.AccountHolder;
+import com.meritamerica.assignment5.models.CheckingAccount;
 
 @RestController
 public class MeritBankController {
 	List<String> strings = new ArrayList<String>(); 
 	
 	List<AccountHolder> ac = new ArrayList<AccountHolder>(); 
+	
+	List<CheckingAccount> ca = new ArrayList<CheckingAccount>(); 
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String test() {
@@ -62,6 +65,17 @@ public class MeritBankController {
 			//if (id > ac.size() -1) {
 				throw new NoSuchResourceFoundException ("invalid id"); 
 		}
+	
+	@GetMapping(value ="/ac/{id}/ca")
+	@ResponseStatus(HttpStatus.CREATED)
+	public CheckingAccount addCheckingAccount(@RequestBody @Valid CheckingAccount checkingAccount, @PathVariable
+			(name = "id") int id) {
+		
+		ca.add(checkingAccount); 
+		return checkingAccount; 
+	}
+	
+	//@PostMapping(value = )
 		
 
 }
