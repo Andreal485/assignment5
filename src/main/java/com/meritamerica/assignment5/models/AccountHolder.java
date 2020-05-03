@@ -29,6 +29,12 @@ public class AccountHolder {
 	public int savingsAccountNo = 0; 
 	public CDAccount [] cdAccounts;
 	public int cdAccountNo = 0; 
+	public int noCheckingAcct; 
+	public int noSavingsAcct; 
+	public int noCDAcct; 
+	public double checkingAcctBalance; 
+	public double savingsAcctBalance; 
+	public double cdAcctBalance; 
 	
 	/**
 	 *  part 1
@@ -44,11 +50,26 @@ public class AccountHolder {
 	 * Part 2
 	 */
 		this.checkingAccountNo++;
-		this.checkingAccounts = new CheckingAccount[1];
+		this.checkingAccounts = new CheckingAccount[0];
+		this.noCheckingAcct = checkingAccounts.length; 
+		this.checkingAcctBalance = checkingAcctBalance; 
+
 		this.savingsAccountNo++;
-		this.savingsAccounts = new SavingsAccount[1];
+		this.savingsAccounts = new SavingsAccount[0];
+		this.noSavingsAcct = savingsAccounts.length; 
+		this.savingsAcctBalance = savingsAcctBalance; 
+
 		this.cdAccountNo++;
-		this.cdAccounts = new CDAccount[1];
+		this.cdAccounts = new CDAccount[0];
+		this.noCDAcct = cdAccounts.length; 
+		this.cdAcctBalance = cdAcctBalance; 
+
+		//cleaningupcode
+		//this.noCheckingAcct = checkingAccounts.length; 
+		//this.noSavingsAcct = savingsAccounts.length; 
+		//this.noCDAcct = cdAccounts.length; 
+		
+		
 	}
 
 	public CheckingAccount[] getCheckingAccounts() {

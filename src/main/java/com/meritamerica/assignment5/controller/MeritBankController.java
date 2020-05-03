@@ -58,12 +58,9 @@ public class MeritBankController {
 	}
 	
 	@GetMapping(value = "/ac/{id}")
-	public AccountHolder getACById(@PathVariable int id) { // throws NoSuchResourceFoundException {
+	public AccountHolder getACById(@PathVariable (name = "id" )int id)  throws NoSuchResourceFoundException {
 			//if (id > ac.size() -1) {
-				//throw new NoSuchResourceFoundException ("invalid id");
-			//}
-			return ac.get(id); 
-
+				throw new NoSuchResourceFoundException ("invalid id"); 
 		}
 		
 
