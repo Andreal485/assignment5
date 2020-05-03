@@ -35,6 +35,11 @@ public class AccountHolder implements Comparable <AccountHolder> {
 	private List<BankAccount> checkingAccounts;
 	private List<BankAccount> savingsAccounts;
 	private List<BankAccount> cdAccounts;
+
+	private int NumberOfCheckingAccounts;
+	private int NumberOfSavingsAccounts;
+	private int NumberOfCDAccounts;
+	
 	
 	//new account holder
 	public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
@@ -46,6 +51,7 @@ public class AccountHolder implements Comparable <AccountHolder> {
 		this.savingsAccounts = new ArrayList <>();
 		this.cdAccounts = new ArrayList <>();
 		this.id = MeritBank.getNextAccountHolderNumber();
+	 
 	}
 	
 	public AccountHolder() {
@@ -54,7 +60,12 @@ public class AccountHolder implements Comparable <AccountHolder> {
 		this.cdAccounts = new ArrayList <>();
 		this.id = MeritBank.getNextAccountHolderNumber();
 	}
-
+	
+	public AccountHolder(int NumberOfCheckingAccounts, int NumberOfSavingsAccounts, int NumberOfCDAccounts) {
+		this.NumberOfCheckingAccounts = checkingAccounts.size(); 
+		this.NumberOfSavingsAccounts = savingsAccounts.size(); 
+		this.NumberOfCDAccounts = cdAccounts.size(); 
+	}
 	
 	
 	public boolean addCheckingAccount(CheckingAccount b) throws ExceedsCombinedBalanceLimitException {
@@ -143,6 +154,30 @@ public class AccountHolder implements Comparable <AccountHolder> {
 		int mySum = (int) getCombinedBalance();
 		int otherSum = (int) other.getCombinedBalance();
 		return mySum - otherSum;
+	}
+
+	public int getNumberOfCDAccounts() {
+		return NumberOfCDAccounts;
+	}
+
+	public void setNumberOfCDAccounts(int numberOfCDAccounts) {
+		NumberOfCDAccounts = numberOfCDAccounts;
+	}
+
+	public int getNumberOfSavingsAccounts() {
+		return NumberOfSavingsAccounts;
+	}
+
+	public void setNumberOfSavingsAccounts(int numberOfSavingsAccounts) {
+		NumberOfSavingsAccounts = numberOfSavingsAccounts;
+	}
+
+	public int getNumberOfCheckingAccounts() {
+		return NumberOfCheckingAccounts;
+	}
+
+	public void setNumberOfCheckingAccounts(int numberOfCheckingAccounts) {
+		NumberOfCheckingAccounts = numberOfCheckingAccounts;
 	}
 	
 	
