@@ -14,19 +14,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.annotation.RequestScope;
 
-import com.meritamerica.assignment5.exceptions.NoSuchResourceFoundException;
-import com.meritamerica.assignment5.models.AccountHolder;
+import com.meritamerica.assignment5.CDOffering;
+import com.meritamerica.assignment5.MeritBank;
+import com.meritamerica.assignment5.models.BankAccount;
+import com.meritamerica.assignment5.models.CDAccount;
+import com.meritamerica.assignment5.models.SavingsAccount;
+import com.meritamerica.assignment5.exceptions.ExceedsCombinedBalanceLimitException;
+import com.meritamerica.assignment5.exceptions.NotFoundException;
+import com.meritamerica.assignment5.AccountHolder;
 import com.meritamerica.assignment5.models.CheckingAccount;
 
 @RestController
 public class MeritBankController {
 	List<String> strings = new ArrayList<String>(); 
 	
-	List<AccountHolder> ac = new ArrayList<AccountHolder>(); 
+	//List<AccountHolder> ac = new ArrayList<AccountHolder>(); 
 	
-	List<CheckingAccount> ca = new ArrayList<CheckingAccount>(); 
+	//List<CheckingAccount> ca = new ArrayList<CheckingAccount>(); 
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String test() {
@@ -47,35 +52,89 @@ public class MeritBankController {
 		
 	} 
 	
-	@GetMapping(value = "/ac")
+	@GetMapping(value = "/AccountHolders")
 	@ResponseStatus(HttpStatus.OK)
 	public List<AccountHolder> getAccoungHolder(){
-		return ac; 
+		return MeritBank.getAccountHolders(); 
 	}
 	
-	@PostMapping(value = "/ac")
+	@PostMapping(value = "/AccountHolders")
 	@ResponseStatus(HttpStatus.CREATED)
 	public AccountHolder addAccountHolder(@RequestBody @Valid AccountHolder accountHolder) {
-		ac.add(accountHolder); 
+		MeritBank.addAccountHolder(accountHolder); 
 		return accountHolder; 
 	}
 	
-	@GetMapping(value = "/ac/{id}")
-	public AccountHolder getACById(@PathVariable (name = "id" )int id)  throws NoSuchResourceFoundException {
+	//Check URL Mapping
+	
+	@GetMapping(value = "/AccountHolders/{id}")
+	public AccountHolder getACById(@PathVariable (name = "id" )long id)  throws NotFoundException {
 			//if (id > ac.size() -1) {
-				throw new NoSuchResourceFoundException ("invalid id"); 
+				//throw new NotFoundException ("invalid id"); 
+		return MeritBank.getAccountHolderByID(id); 
 		}
 	
-	@GetMapping(value ="/ac/{id}/ca")
+	@PostMapping(value ="/AccountHolders/{id}/CheckingAccounts")
 	@ResponseStatus(HttpStatus.CREATED)
 	public CheckingAccount addCheckingAccount(@RequestBody @Valid CheckingAccount checkingAccount, @PathVariable
-			(name = "id") int id) {
-		
-		ca.add(checkingAccount); 
+			(name = "id") long id) throws ExceedsCombinedBalanceLimitException, NotFoundException{
+		AccountHolder a = MeritBank.getAccountHolderByID(id); 
+		a.addCheckingAccount(checkingAccount); 
 		return checkingAccount; 
 	}
 	
-	//@PostMapping(value = )
+	@GetMapping(value = "/AccountHolders/{id}/CheckingAccounts")
+	@ResponseStatus(HttpStatus.OK)
+	public List<BankAccount> getCheckingAccount(@PathVariable (name = "id") long id) throws NotFoundException {
+		AccountHolder a = MeritBank.getAccountHolderByID(id); 
+		return a.getCheckingAccounts(); 
+	}
+	@PostMapping(value ="/AccountHolders/{id}/SavingsAccounts")
+	@ResponseStatus(HttpStatus.CREATED)
+	public SavingsAccount addSavingsAccount(@RequestBody @Valid SavingsAccount savingsAccount, @PathVariable
+			(name = "id") long id) throws ExceedsCombinedBalanceLimitException, NotFoundException{
+		AccountHolder a = MeritBank.getAccountHolderByID(id); 
+		a.addSavingsAccount(savingsAccount); 
+		return savingsAccount; 
+	}
+	
+	@GetMapping(value = "/AccountHolders/{id}/SavingsAccounts")
+	@ResponseStatus(HttpStatus.OK)
+	public List<BankAccount> getSavingsAccount(@PathVariable (name = "id") long id) throws NotFoundException {
+		AccountHolder a = MeritBank.getAccountHolderByID(id); 
+		return a.getSavingsAccounts(); 
+	}
+	
+	@PostMapping(value ="/AccountHolders/{id}/CDAccounts")
+	@ResponseStatus(HttpStatus.CREATED)
+	public CDAccount addCDAccount(@RequestBody @Valid CDAccount cdAccount, @PathVariable
+			(name = "id") long id) throws ExceedsCombinedBalanceLimitException, NotFoundException{
+		AccountHolder a = MeritBank.getAccountHolderByID(id); 
+		a.addCDAccount(cdAccount); 
+		return cdAccount; 
+	}
+	
+	@GetMapping(value = "/AccountHolders/{id}/CDAccounts")
+	@ResponseStatus(HttpStatus.OK)
+	public List<BankAccount> getCDAccount(@PathVariable (name = "id") long id) throws NotFoundException {
+		AccountHolder a = MeritBank.getAccountHolderByID(id); 
+		return a.getCDAccounts(); 
+	}
+	
+	@PostMapping(value ="/CDOffering")
+	@ResponseStatus(HttpStatus.CREATED)
+	public CDOffering addCDOffering(@RequestBody @Valid CDOffering cdOffering, @PathVariable
+			(name = "id") long id) {
+		MeritBank.addCDOffering(cdOffering); 
+		return cdOffering; 
+	}
+	
+	@GetMapping(value = "/CDOffering")
+	@ResponseStatus(HttpStatus.OK)
+	public List<CDOffering> getCDOffering() throws NotFoundException {
+		return MeritBank.getCDOfferings(); 
+	}
+	
 		
 
 }
