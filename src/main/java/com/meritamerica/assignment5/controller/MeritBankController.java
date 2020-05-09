@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import com.meritamerica.assignment5.MeritBank;
 import com.meritamerica.assignment5.models.BankAccount;
 import com.meritamerica.assignment5.models.CDAccount;
 import com.meritamerica.assignment5.models.SavingsAccount;
+import com.meritamerica.assignment5.repos.*;
 import com.meritamerica.assignment5.exceptions.ExceedsCombinedBalanceLimitException;
 import com.meritamerica.assignment5.exceptions.NotFoundException;
 import com.meritamerica.assignment5.AccountHolder;
@@ -28,6 +30,20 @@ import com.meritamerica.assignment5.models.CheckingAccount;
 @RestController
 public class MeritBankController {
 	List<String> strings = new ArrayList<String>(); 
+	
+	@Autowired
+	private AccountHolderContactDetailsRepository accountHolderContactRepo;
+	@Autowired
+	private AccountHolderRepository accountHolderRepo;
+	@Autowired
+	private CDAccountRepository cdAccountRepo;
+	@Autowired
+	private CDOfferingRepository cdOfferingRepo;
+	@Autowired
+	private CheckingAccountRepository checkingAccountRepo;
+	@Autowired
+	private SavingsAccountRepository savingsAccountRepo;
+	
 	
 	//List<AccountHolder> ac = new ArrayList<AccountHolder>(); 
 	
@@ -123,8 +139,7 @@ public class MeritBankController {
 	
 	@PostMapping(value ="/CDOffering")
 	@ResponseStatus(HttpStatus.CREATED)
-	public CDOffering addCDOffering(@RequestBody @Valid CDOffering cdOffering, @PathVariable
-			(name = "id") long id) {
+	public CDOffering addCDOffering(@RequestBody @Valid CDOffering cdOffering) {
 		MeritBank.addCDOffering(cdOffering); 
 		return cdOffering; 
 	}

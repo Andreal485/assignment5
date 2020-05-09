@@ -1,25 +1,24 @@
-package com.meritamerica.assignment5;
+package com.meritamerica.assignment5.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.constraints.Size;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
-//import org.hibernate.validator.constraints.NotBlank;
-//import org.hibernate.validator.constraints.NotEmpty;
-
-import com.meritamerica.assignment5.models.BankAccount;
-import com.meritamerica.assignment5.models.CDAccount;
-import com.meritamerica.assignment5.models.CheckingAccount;
-import com.meritamerica.assignment5.models.SavingsAccount;
 import com.meritamerica.assignment5.exceptions.ExceedsCombinedBalanceLimitException;
 
 @Entity 
+@Table (name = "accountholders")
 public class AccountHolder implements Comparable <AccountHolder> {
 	
 	@NotBlank(message = "First Name is required")
@@ -34,14 +33,21 @@ public class AccountHolder implements Comparable <AccountHolder> {
 	@NotBlank(message = "SSN is required")
 	private String ssn;
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@ManyToOne
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "contactId", referencedColumnName = "contactId")
+	private AccountHolderContactDetails accountHolderContactDetails;
+	
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<BankAccount> checkingAccounts;
 	
-	@ManyToOne
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<BankAccount> savingsAccounts;
-	@ManyToOne
+	
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<BankAccount> cdAccounts;
 
 	private int NumberOfCheckingAccounts;
@@ -58,7 +64,6 @@ public class AccountHolder implements Comparable <AccountHolder> {
 		this.checkingAccounts = new ArrayList <>();
 		this.savingsAccounts = new ArrayList <>();
 		this.cdAccounts = new ArrayList <>();
-		this.id = MeritBank.getNextAccountHolderNumber();
 	 
 	}
 	
@@ -66,14 +71,8 @@ public class AccountHolder implements Comparable <AccountHolder> {
 		this.checkingAccounts = new ArrayList <>();
 		this.savingsAccounts = new ArrayList <>();
 		this.cdAccounts = new ArrayList <>();
-		this.id = MeritBank.getNextAccountHolderNumber();
 	}
 	
-	public AccountHolder(int NumberOfCheckingAccounts, int NumberOfSavingsAccounts, int NumberOfCDAccounts) {
-		this.NumberOfCheckingAccounts = checkingAccounts.size(); 
-		this.NumberOfSavingsAccounts = savingsAccounts.size(); 
-		this.NumberOfCDAccounts = cdAccounts.size(); 
-	}
 	
 	
 	public boolean addCheckingAccount(CheckingAccount b) throws ExceedsCombinedBalanceLimitException {
@@ -197,4 +196,5 @@ public class AccountHolder implements Comparable <AccountHolder> {
 	
 	
 }
+
 
